@@ -38,7 +38,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
             System.out.println("Errore caricamento immagini auto nel parcheggio.");
         }
 
-        JButton btnAllarme = new JButton("🚨 Forza Ingresso Auto Termica in EV");
+        JButton btnAllarme = new JButton(" Forza Ingresso Auto Termica in EV");
         btnAllarme.setBackground(new Color(255, 100, 100));
         btnAllarme.setForeground(Color.BLACK);
         btnAllarme.addActionListener(e -> {
