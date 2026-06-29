@@ -421,7 +421,7 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
                         a.progressoAttuale = 0.0; 
                     }
                 }
-                System.out.println("✅ [EMERGENZA RIENTRATA] Strada sgombrata. Il traffico riprende regolarmente.");
+                System.out.println(" [EMERGENZA RIENTRATA] Strada sgombrata. Il traffico riprende regolarmente.");
             }
         }
 
