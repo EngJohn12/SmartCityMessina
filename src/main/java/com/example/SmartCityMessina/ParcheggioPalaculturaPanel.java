@@ -32,13 +32,13 @@ public class ParcheggioPalaculturaPanel extends JPanel {
         this.random = new Random();
 
         try {
-            this.iconaTesla = ImageIO.read(new File("immagini/tesla.png"));
-            this.iconaPanda = ImageIO.read(new File("immagini/icona_macchina.png"));
+            this.iconaTesla = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\tesla.png"));
+            this.iconaPanda = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\icona_macchina.png"));
         } catch (IOException e) {
             System.out.println("Errore caricamento immagini auto nel parcheggio.");
         }
 
-        JButton btnAllarme = new JButton(" Forza Ingresso Auto Termica in EV");
+        JButton btnAllarme = new JButton("🚨 Forza Ingresso Auto Termica in EV");
         btnAllarme.setBackground(new Color(255, 100, 100));
         btnAllarme.setForeground(Color.BLACK);
         btnAllarme.addActionListener(e -> {
@@ -65,7 +65,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
                 stampaStatoTerminale();
                 
                 JOptionPane.showMessageDialog(this, 
-                    " ALLARME VIOLAZIONE!\nVeicolo termico rilevato nelle colonnine EV.\nSegnalazione inviata: CARRO ATTREZZI IN ARRIVO!", 
+                    "🚨 ALLARME VIOLAZIONE!\nVeicolo termico rilevato nelle colonnine EV.\nSegnalazione inviata: CARRO ATTREZZI IN ARRIVO!", 
                     "Smart Security System", 
                     JOptionPane.ERROR_MESSAGE);
                 
@@ -98,7 +98,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
             tipoAutoParcheggiata[stalloCasuale] = autoInArrivo;
             
             if (stalloCasuale < 6 && autoInArrivo == 1) {
-                String messaggioLog = " [CONTROLLO SENSORI] Rilevata auto TERMICA nello stallo EV n." + (stalloCasuale + 1) + "!";
+                String messaggioLog = "🚨 [CONTROLLO SENSORI] Rilevata auto TERMICA nello stallo EV n." + (stalloCasuale + 1) + "!";
                 System.out.println(messaggioLog);
                 
                 try (java.io.FileWriter fw = new java.io.FileWriter("log_citta.txt", true);
@@ -135,7 +135,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
         System.out.println("\n--- AGGIORNAMENTO STATO PARCHEGGIO PALACULTURA ---");
         for (int i = 0; i < 12; i++) {
             String tipoStallo = (i < 6) ? "⚡ EV " : "🔥 ICE";
-            String stato = " VUOTO";
+            String stato = "🟩 VUOTO";
             
             if (stalliOccupati[i]) {
                 stato = (tipoAutoParcheggiata[i] == 0) ? "🚗 Tesla (Elettrica)" : "🚙 Toyota (Termica)";
@@ -187,7 +187,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
                 g2d.setColor(new Color(200, 200, 200));
                 g2d.drawRect(x, y, larghezzaRett, altezzaStallo);
                 g2d.setFont(new Font("Arial", Font.BOLD, 18));
-                g2d.drawString(" ICE " + (i + 1), x + 8, y + 25);
+                g2d.drawString("🔥 ICE " + (i + 1), x + 8, y + 25);
                 g2d.drawString("  ICE ", x + larghezzaRett / 2 - 25, y + altezzaStallo / 2);
             }
 
@@ -214,7 +214,7 @@ public class ParcheggioPalaculturaPanel extends JPanel {
             g2d.fillOval(x + larghezzaRett / 2 - 7, y - 10, 15, 15);
         }
 
-        String testo = " PALA CULTURA - HUB  EV: " + postiLiberiEV + " LIBERI /  ICE: " + postiLiberiICE + " LIBERI";
+        String testo = " PALA CULTURA - HUB ⚡ EV: " + postiLiberiEV + " LIBERI / 🔥 ICE: " + postiLiberiICE + " LIBERI";
         Font fontDisplay = new Font("Monospaced", Font.BOLD, 22);
         g2d.setFont(fontDisplay);
         FontMetrics fm = g2d.getFontMetrics(fontDisplay);

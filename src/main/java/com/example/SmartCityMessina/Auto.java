@@ -6,9 +6,22 @@ package com.example.SmartCityMessina;
 
 public class Auto extends Veicolo {
     
-    private String modello;
-    // 0 = Elettrico, 1 = Termico
-    private int tipoMotore; 
+    
+    // ===================================================
+    // =       INFORMATION HIDING (Regola dei 3 step)    =
+    // ===================================================
+
+    // 1. Private/Public | 2. Class (Static) | 3. Constant (final)
+    public static final int MOTORE_ELETTRICO = 0;
+    public static final int MOTORE_TERMICO = 1;
+    private static final int ACCELERAZIONE_STANDARD = 5;
+
+    // ------ Variabile di Istanza ------
+    // 1.Private | 2.Instance | 3. Constant (final)
+    private final String modello;
+
+    // 1. Private | 2. Instance | 3. Constant 
+    private final int tipoMotore; // 0 = Elettrico, 1 = Termico
 
     public Auto(String targa, String destinazione, String modello, int tipoMotore) {
         super(targa, destinazione);
@@ -25,10 +38,11 @@ public class Auto extends Veicolo {
     }
 
     @Override
-    public void muovi() {
-        setVelocitaAttuale(getVelocitaAttuale() + 5);
+        public void muovi() {
+            setVelocitaAttuale(getVelocitaAttuale() + ACCELERAZIONE_STANDARD);
         String tipo = (tipoMotore == 0) ? "Elettrica" : "Termica";
-        System.out.println("[Auto " + tipo + " " + getId() + "] in movimento verso " + getDestinazione() + " a " + getVelocitaAttuale() + " km/h.");
+        System.out.println("[Auto " + tipo + " " + getId() + "] in movimento verso " + getDestinazione() + " a " 
+        + getVelocitaAttuale() + " km/h.");
     }
 
     @Override

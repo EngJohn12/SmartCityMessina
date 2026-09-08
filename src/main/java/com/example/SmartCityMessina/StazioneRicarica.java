@@ -14,8 +14,13 @@ public class StazioneRicarica extends Dispositivo {
     @Override
     public void riceviMessaggio(Comunicazione mittente, String messaggio) {
         System.out.println("-> Stazione Ricarica riceve da " + mittente.getId() + ": " + messaggio);
-        if (messaggio.equals("RICHIESTA_RICARICA")) {
-            System.out.println("   [Azione] Ricarica del veicolo " + mittente.getId() + " iniziata...");
+        
+        // ==============================================================
+        // = Intercetta il comando dinamico e isola la targa dell'auto  =
+        // ==============================================================
+        if (messaggio.startsWith("RICHIESTA_RICARICA_PER:")) {
+            String targaAuto = messaggio.split(":")[1];
+            System.out.println("   [Azione] Erogazione energia attivata. Ricarica del veicolo " + targaAuto + " in corso...");
         }
     }
 }

@@ -4,7 +4,7 @@ package com.example.SmartCityMessina;
 // =   EREDITARIETÀ: L'Ambulanza "è un" Veicolo.              =
 // =   POLIMORFISMO: Reagisce diversamente ai semafori rossi. =
 // ============================================================
-public class Ambulanza extends Veicolo {
+public class Ambulanza extends Veicolo implements VeicoloPrioritario{
 
     private boolean inEmergenza;
 
@@ -46,6 +46,14 @@ public class Ambulanza extends Veicolo {
                 System.out.println("   [Azione] Nessuna emergenza. L'ambulanza frena e si ferma al semaforo come tutti.");
                 setVelocitaAttuale(0);
             }
+            
         }
     }
+    @Override 
+    public void richiediEmergenza(){
+    System.out.println("🚨 [EMERGENZA] Veicolo prioritario in avvicinamento. Sgomberare l'incrocio!\"");
+    
+    }
+    
+    
 }

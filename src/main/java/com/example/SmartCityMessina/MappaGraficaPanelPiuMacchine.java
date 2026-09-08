@@ -17,11 +17,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class MappaGraficaPanelPiuMacchine extends JPanel {
+public class MappaGraficaPanelPiuMacchine extends JPanel implements Runnable {
 
     private BufferedImage iconaAmbulanza;
     private BufferedImage iconaTesla; 
     private BufferedImage iconaCarroAttrezzi; 
+    private BufferedImage iconaPolizia;
+    
     //  ===================================
     //  = VARIABILI PER IL CARRO ATTREZZI =
     //  ===================================
@@ -39,6 +41,7 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
         double velocita;
         boolean isEmergenza;
         boolean isElettrica; 
+        boolean isPolizia;
         //  ===========================================
         //  = VARIABILI PER LE COLLISIONI E POSIZIONE =
         //  ===========================================
@@ -46,6 +49,8 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
         double currentX = -1;
         double currentY = -1;
         
+
+        /*Polimorfismo ad-hoc per overloading*/ 
         public AutoGrafica(double[][] percorso, double velocitaIniziale, double offsetPartenza) {
             this(percorso, velocitaIniziale, offsetPartenza, false, false); 
         }
@@ -56,9 +61,17 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
             this.velocita = velocitaIniziale;
             this.isEmergenza = isEmergenza;
             this.isElettrica = isElettrica;
+            this.isPolizia = false;
+            
+            
+        }
+    
+        public AutoGrafica(double[][] percorso, double velocitaIniziale, double offsetPartenza, boolean isEmergenza, boolean isElettrica, boolean isPolizia) {
+            this(percorso, velocitaIniziale, offsetPartenza, isEmergenza, isElettrica);
+            this.isPolizia = isPolizia;
         }
     }
-
+    
     private Image sfondo, iconaAuto, iconaSensore;
     
     // ============
@@ -133,23 +146,27 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
         }
 
         try {
-            this.sfondo = ImageIO.read(new File("immagini/mappa_sfondo.jpeg"));
-            this.iconaAuto = ImageIO.read(new File("immagini/icona_macchina.png"));
-            this.iconaSensore = ImageIO.read(new File("immagini/icona_sensore.png"));
-            this.iconaAmbulanza = ImageIO.read(new File("immagini/ambulanza.png"));
-            this.iconaTesla = ImageIO.read(new File("immagini/tesla.png"));
-            this.iconaCarroAttrezzi = ImageIO.read(new File("immagini/carro_attrezzi.png"));
+            this.sfondo = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\mappa_sfondo.jpeg"));
+            this.iconaAuto = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\icona_macchina.png"));
+            this.iconaSensore = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\icona_sensore.png"));
+            this.iconaAmbulanza = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\ambulanza.png"));
+            this.iconaTesla = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\tesla.png"));
+            this.iconaCarroAttrezzi = ImageIO.read(new File("C:\\Users\\johnd\\Downloads\\SmartCityMessina-main\\SmartCityMessina-main\\src\\immagini\\carro_attrezzi.png"));
+            this.iconaPolizia = ImageIO.read(new File("src/immagini/autoPolizia.png"));
         } catch (IOException e) { e.printStackTrace(); }
 
         double velocitaStandard = 0.0030;
 
-        flottaAuto.add(new AutoGrafica(percorsoGaribaldiNordToSud, velocitaStandard, 0.0));
-        flottaAuto.add(new AutoGrafica(percorsoEstToOvestVittorioEmanueleDirittoDestra, velocitaStandard, 0.0));
-        flottaAuto.add(new AutoGrafica(percorsoBoccettaOvestToSudGiraDestra, velocitaStandard, 0.4));
-        flottaAuto.add(new AutoGrafica(percorsoGaribaldiSudToEstGiraDestra, 0.0029, 0.8, false, false));
-        flottaAuto.add(new AutoGrafica(percorsoGaribaldiSudToNordDiritto, velocitaStandard, 0.1, false, true));
-        flottaAuto.add(new AutoGrafica(percorsoEstToOvestVittorioEmanueleDirittoDestra, velocitaStandard, 3.0, false, true));
-        flottaAuto.add(new AutoGrafica(percorsoAmbulanzaParallelo, 0.0050, 0.0, true, false));
+        flottaAuto.add(new AutoGrafica(percorsoGaribaldiNordToSud, velocitaStandard, 0.0)); // Auto normale
+        flottaAuto.add(new AutoGrafica(percorsoEstToOvestVittorioEmanueleDirittoDestra, velocitaStandard, 0.0)); // Auto normale
+        flottaAuto.add(new AutoGrafica(percorsoBoccettaOvestToSudGiraDestra, velocitaStandard, 0.4)); // Auto normale
+        flottaAuto.add(new AutoGrafica(percorsoGaribaldiSudToEstGiraDestra, 0.0029, 0.8, false, false)); // Auto normale
+        flottaAuto.add(new AutoGrafica(percorsoGaribaldiSudToNordDiritto, velocitaStandard, 0.1, false, true)); // Auto elettrica
+        flottaAuto.add(new AutoGrafica(percorsoEstToOvestVittorioEmanueleDirittoDestra, velocitaStandard, 3.0, false, true)); // Auto elettrica
+        flottaAuto.add(new AutoGrafica(percorsoAmbulanzaParallelo, 0.0050, 0.0, true, false)); // Ambulanza
+        flottaAuto.add(new AutoGrafica(percorsoGaribaldiSudToNordDiritto, 0.0055, 1.5, true, false, true)); //Auto Polizia
+        
+        
         
         btnPlayPause = new JButton("Pausa"); 
         btnPlayPause.addActionListener(e -> {
@@ -223,7 +240,7 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
         if (livelloSmogGrafico < 10) livelloSmogGrafico = 10;
         if (livelloSmogGrafico > 95) livelloSmogGrafico = 95;
         
-        // 🚨 NUOVO: Sincronizziamo il backend con la simulazione grafica!
+        // Sincronizziamo il backend con la simulazione grafica!
         if (sensoreSmogBackEnd != null) {
             sensoreSmogBackEnd.aggiornaLivelloSmog(livelloSmogGrafico);
         }
@@ -345,6 +362,7 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
                     }
                 }
             }
+            
             // ===================================================
             // = Movimento dell'auto se libera e non incidentata =
             // ===================================================
@@ -353,7 +371,7 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
                 if (i >= auto.percorsoAssegnato.length - 1) { i = auto.percorsoAssegnato.length - 2; }
                 double dx = auto.percorsoAssegnato[i + 1][0] - auto.percorsoAssegnato[i][0];
                 double dy = auto.percorsoAssegnato[i + 1][1] - auto.percorsoAssegnato[i][1];
-                auto.progressoAttuale += auto.velocita / Math.sqrt((dx * dx) + (dy * dy));
+                auto.progressoAttuale += auto.velocita / Math.sqrt((dx * dx) + (dy * dy));       // Normalizzazione velocita per la distanza euclidea in curva
                 
                 if (auto.progressoAttuale >= auto.percorsoAssegnato.length - 1) {
                     auto.progressoAttuale = 0.0; 
@@ -374,8 +392,8 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
             int index = (int) auto.progressoAttuale;
             double percentuale = auto.progressoAttuale - index; 
             if (index >= auto.percorsoAssegnato.length - 1) { index = auto.percorsoAssegnato.length - 2; percentuale = 1.0; }
-            double cx1 = auto.percorsoAssegnato[index][0], cy1 = auto.percorsoAssegnato[index][1];
-            double cx2 = auto.percorsoAssegnato[index + 1][0], cy2 = auto.percorsoAssegnato[index + 1][1];
+            double cx1 = auto.percorsoAssegnato[index][0], cy1 = auto.percorsoAssegnato[index][1]; //cordinnate del punto di partenza
+            double cx2 = auto.percorsoAssegnato[index + 1][0], cy2 = auto.percorsoAssegnato[index + 1][1]; //cordinnate del punto di arrivo
             
             auto.currentX = cx1 + (cx2 - cx1) * percentuale;
             auto.currentY = cy1 + (cy2 - cy1) * percentuale;
@@ -421,13 +439,14 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
                         a.progressoAttuale = 0.0; 
                     }
                 }
-                System.out.println(" [EMERGENZA RIENTRATA] Strada sgombrata. Il traffico riprende regolarmente.");
+                System.out.println("✅ [EMERGENZA RIENTRATA] Strada sgombrata. Il traffico riprende regolarmente.");
             }
         }
 
         repaint();       
     }
 
+    /*  Polimorfismo ad-hoc Coercion per casting () */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -552,6 +571,12 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
                     g2d.setFont(new Font("Arial", Font.BOLD, 10));
                     g2d.drawString("CRASH", -18, 4);
                 }
+                
+                else if (auto.isPolizia) {
+                    g2d.drawImage(iconaPolizia != null ? iconaPolizia : iconaAuto, -20, -20, 40, 40, this);
+                    if (contatoreTempo % 10 < 5) g2d.setColor(Color.BLUE); else g2d.setColor(Color.RED);
+                    g2d.fillOval(-5, -5, 10, 10); 
+                }
                 else if (auto.isEmergenza && iconaAmbulanza != null) {
                     g2d.drawImage(iconaAmbulanza, -20, -20, 40, 40, this);
                     if (contatoreTempo % 10 < 5) g2d.setColor(Color.BLUE); else g2d.setColor(Color.WHITE);
@@ -590,4 +615,11 @@ public class MappaGraficaPanelPiuMacchine extends JPanel {
             g2d.drawString("RIMOZIONE VEICOLI...", xDraw - 50, yDraw + 35);
         }
     }
+
+  @Override
+    public void run() {
+        System.out.println("Pannello avviato in modo Thread-Safe");
+
+}
+
 }

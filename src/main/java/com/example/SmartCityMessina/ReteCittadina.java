@@ -11,7 +11,8 @@ import java.util.Map;
  * per potersi trovare e comunicare tra loro autonomamente.
  */
 public class ReteCittadina {
-
+    
+    //Polimorfismo parametrico:  generics
     // COLLEZIONI: Uso di Map (Dizionario chiave-valore) e List (Array dinamico)
     private Map<String, Dispositivo> mappaDispositivi;
     private List<Veicolo> flottaVeicoli;
@@ -41,9 +42,10 @@ public class ReteCittadina {
     }
     
     // Broadcast: Invia un segnale di "tick" temporale, ma OGNI dispositivo 
-    // decide in totale autonomia cosa fare (Polimorfismo).
+    // decide in totale autonomia cosa fare (Polimorfismo By Inclusion/Subtyping).
     public void aggiornaTuttiIDispositivi() {
         System.out.println("\n--- SINCRONIZZAZIONE DI RETE ---");
+        //(Polimorfismo By Inclusion/Subtyping).
         for (Dispositivo d : mappaDispositivi.values()) {
             d.eseguiAzione(); // Nessun ordine centrale: il dispositivo agisce da solo!
         }

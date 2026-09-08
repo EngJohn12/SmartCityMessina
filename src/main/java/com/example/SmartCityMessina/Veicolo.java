@@ -10,7 +10,7 @@ public abstract class Veicolo implements Comunicazione {
     // =  INCAPSULAMENTO = 
     // ===================
     private String targa;
-    private int velocitaAttuale;
+    private static int velocitaAttuale;
     private String destinazione;
     // ===================
     // =   COSTRUTTORE   =
@@ -51,3 +51,4 @@ public abstract class Veicolo implements Comunicazione {
         destinatario.riceviMessaggio(this, messaggio);
     }
 }
+

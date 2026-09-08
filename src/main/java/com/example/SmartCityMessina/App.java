@@ -30,7 +30,7 @@ public class App {
         // = CREAZIONE ALTRI DISPOSITIVI (Sensore, Parcheggio, Stazione di Ricarica)  =
         // ============================================================================
         SensoreAmbientale sensoreSmog = new SensoreAmbientale("SENS-01 ", "Viale Boccetta ", rete);
-        ParcheggioPalacultura parkPala = new ParcheggioPalacultura("PARK-Pala ", "Piano -2 ");
+       ParcheggioPalacultura parkPala = new ParcheggioPalacultura("PARK-Pala ", "Piano -2 ", rete);
         StazioneRicarica colonnina = new StazioneRicarica("STAZ-Ric-01", "Piazza Unione Europea");
         
         
@@ -41,8 +41,16 @@ public class App {
         // ===================
         Auto panda = new Auto("ME98765", "Imbarcaderi", "Fiat Panda", 1); // TERMICA
         Auto tesla = new Auto("ME12345", "Duomo", "Tesla ", 0);    // ELETTRICA
-        Ambulanza croceRossa = new Ambulanza("CRI-118", "Ospedale Papardo", true); 
+        Ambulanza croceRossa = new Ambulanza("CRI-118", "Ospedale Papardo", true);
+      
 
+        // ==========================================================
+        // = TEST MULTITYPING (Polimorfismo) CON VEICOLI PRIORITARI =
+        // ==========================================================
+        System.out.println("\n--- TEST VEICOLI PRIORITARI ---");
+        VeicoloPrioritario emergenzaAttiva = croceRossa; 
+        emergenzaAttiva.richiediEmergenza();
+        
         System.out.println("\n--- TEST PARCHEGGIO PALACULTURA ---");
         
         // =========================
@@ -76,6 +84,8 @@ public class App {
         
         rete.registraVeicolo(panda);
         rete.registraVeicolo(croceRossa);
+        rete.registraVeicolo(tesla);
+
         
         logger.scriviLog("Rete avviata con successo. Tutti i nodi sono connessi.");
 
